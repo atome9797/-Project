@@ -5,7 +5,11 @@ Unity 프로젝트 기획서는 아래와 같은 양식으로
 ## 게임 개요
 게임에 대해서 간단히 설명합니다.
 
-- [아스트로킹즈](https://play.google.com/store/apps/details?id=kr.co.angames.astrokings.google.android&gl=US)을 모작했습니다.
+- [길건너친구들](https://play.google.com/store/apps/details?id=com.yodo1.crossyroad&hl=ko&gl=US)을 모작했습니다.
+- 개발 기간 : 7일
+- 구현 기능 :
+- 게임 개요 :
+- 게임에 사용된 에셋 : 
 
 ## 개발 환경
 프로젝트가 완료된 후 개발 환경을 작성합니다. 기간 / 인원 / 사용한 툴 / 외부 패키지, 라이브러리 등을 작성합니다.
