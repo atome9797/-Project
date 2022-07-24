@@ -223,7 +223,7 @@ MonoBehaviour:
   CloneTarget: {fileID: 8488802071611880970, guid: 68c2f4c373311964a952668d9763993e, type: 3}
   GeneratoinPos: {fileID: 595683200}
   GenerationPersent: 50
-  CloneDelaySec: 5
+  CloneDelaySec: 4
 --- !u!1 &371187602
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RaftObject: {fileID: 0}
   m_RaftOffsetpos: {x: 0, y: 0, z: 0}
+  MapManagerCom: {fileID: 1138053430}
   _directionType: 0
 --- !u!1 &1138053429
 GameObject:
@@ -813,13 +814,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bb1f903bab79254d8455bb060650840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapObjectArray:
-  - {fileID: 143224724}
-  - {fileID: 1515765714}
-  - {fileID: 248108168}
-  ParentTransform: {fileID: 0}
+  DefaultRoad: {fileID: 1515765716}
+  WaterRoad: {fileID: 248108170}
+  GrassRoad: {fileID: 143224726}
+  ParentTransform: {fileID: 1008852792}
   MinPosZ: -20
   MaxPosZ: 20
+  FrontOffsetPosZ: 20
+  BackOffsetPosZ: 10
+  m_DeleteLine: 10
+  m_BackOffsetLineCount: 30
 --- !u!4 &1138053431
 Transform:
   m_ObjectHideFlags: 0

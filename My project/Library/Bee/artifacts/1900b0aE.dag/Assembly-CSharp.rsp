@@ -353,10 +353,11 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/Camera/CameraFollow.cs"
 "Assets/Scripts/Component/Car.cs"
+"Assets/Scripts/Component/GrassSpawn.cs"
 "Assets/Scripts/Component/Raft.cs"
 "Assets/Scripts/Component/Road.cs"
+"Assets/Scripts/Manager/MapManager.cs"
 "Assets/Scripts/Player/PlayerHealth.cs"
-"Assets/Scripts/Player/PlayerInput.cs"
 "Assets/Scripts/Player/PlayerMovement.cs"
 "Assets/VoxelAnimals/Assets/Scripts/PlayerController.cs"
 -langversion:9.0

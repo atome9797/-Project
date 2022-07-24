@@ -9,11 +9,13 @@ public class PlayerMovement : MonoBehaviour
     protected Transform RaftCompareObj;
 
     public Vector3 m_RaftOffsetpos = Vector3.zero;
+    public MapManager MapManagerCom;
 
     private void Start()
     {
         string[] templayer = new string[] { "Tree" };
         m_TreeLayerMask = LayerMask.GetMask(templayer);
+        MapManagerCom.UpdateForwardNBackMove((int)transform.position.z);
     }
     public enum E_DirectionType
     {
@@ -90,6 +92,8 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position += offsetpos;
         m_RaftOffsetpos += offsetpos;
+
+        MapManagerCom.UpdateForwardNBackMove((int)transform.position.z);
     }
 
 
