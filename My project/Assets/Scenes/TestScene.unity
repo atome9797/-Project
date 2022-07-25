@@ -896,6 +896,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1015466418}
+  - component: {fileID: 1015466424}
   - component: {fileID: 1015466417}
   - component: {fileID: 1015466422}
   - component: {fileID: 1015466421}
@@ -965,8 +966,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ui: {fileID: 1029355045}
+  _animator: {fileID: 2037137901}
   RaftObject: {fileID: 0}
-  m_RaftOffsetpos: {x: 0, y: 0, z: 0}
+  RaftOffsetpos: {x: 0, y: 0, z: 0}
   MapManagerCom: {fileID: 1138053430}
   _directionType: 0
 --- !u!114 &1015466423
@@ -981,6 +983,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799a9b399f03ee94da5e36886d5d828e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1015466424
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015466416}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da87f0caf717cb746a640124438be23c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1029355043
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,6 +1273,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1248831206 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100002, guid: a781aa61e9361024cac36d44dda87c3a, type: 3}
+  m_PrefabInstance: {fileID: 2037137899}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1503712250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1737,3 +1764,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: a781aa61e9361024cac36d44dda87c3a, type: 3}
   m_PrefabInstance: {fileID: 2037137899}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &2037137901
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248831206}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da87f0caf717cb746a640124438be23c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

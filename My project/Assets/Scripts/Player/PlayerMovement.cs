@@ -6,7 +6,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI _ui;
-    
+    public Animator _animator; // 플레이어 캐릭터의 애니메이터
+    public float timeBeforeNextJump = 1.2f;
+    private float canJump = 0f;
+
     [SerializeField]
     protected Raft RaftObject;
     protected Transform RaftCompareObj;
@@ -22,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _ui = GetComponent<TextMeshProUGUI>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -105,6 +109,11 @@ public class PlayerMovement : MonoBehaviour
         GameManager.Instance.AddScore();
         MapManagerCom.UpdateForwardNBackMove((int)transform.position.z);
 
+        if ( Time.time > canJump)
+        {
+            canJump = Time.time + timeBeforeNextJump;
+            _animator.SetTrigger("jump");
+        }
 
     }
 
