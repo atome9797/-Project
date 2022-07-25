@@ -5,15 +5,7 @@ using UnityEngine;
 public class MapManager : MonoBehaviour
 {
 
-    public enum E_EnvironmentType
-    {
-        Grass = 0,
-        Road,
-        Water,
-        Max
-    }
-
-    public enum E_LastRoadType
+    public enum LastRoadType
     {
         Grass = 0,
         Road,
@@ -23,7 +15,6 @@ public class MapManager : MonoBehaviour
 
     //public GameObject[] mapObjectArray;
 
-    [Header("[copyRoad]")]
     public Road DefaultRoad = null;
     public Road WaterRoad = null;
     public GrassSpawn GrassRoad = null;
@@ -135,7 +126,7 @@ public class MapManager : MonoBehaviour
         mapListDic.Add(p_posz, cloneobj.transform);
     }
 
-    protected E_LastRoadType m_LastRoadType = E_LastRoadType.Max;
+    protected LastRoadType m_LastRoadType = LastRoadType.Max;
     protected List<Transform> mapList = new List<Transform>();
     protected Dictionary<int, Transform> mapListDic = new Dictionary<int, Transform>();
     protected int m_LastLinePos = 0;
@@ -145,11 +136,12 @@ public class MapManager : MonoBehaviour
     public int m_BackOffsetLineCount = 30;
 
 
+    //움직일때마다 카메라의 속도에 따라 새로 생성되는 발판
     public void UpdateForwardNBackMove(int p_posz)
     {
         if(mapList.Count <= 0)
         {
-            m_LastRoadType = E_LastRoadType.Grass;
+            m_LastRoadType = LastRoadType.Grass;
             m_MinLine = MinPosZ;
             int i = 0;
             //초기용 라인들 세팅
@@ -162,24 +154,27 @@ public class MapManager : MonoBehaviour
                 }
                 else
                 {
-                    if(m_LastRoadType == E_LastRoadType.Grass)
+                    if(m_LastRoadType == LastRoadType.Grass)
                     {
                         int randomval = Random.Range(0, 2);
                         if(randomval == 0)
                         {
+                            //묶음으로 발판 나오게 하기
                             offsetval = GroupRandomWaterLine(i);
                         }
                         else
                         {
+                            //묶음으로 발판 나오게 하기
                             offsetval = GroupRandomRoadLine(i);
                         }
 
-                        m_LastRoadType = E_LastRoadType.Road;
+                        m_LastRoadType = LastRoadType.Road;
                     }
                     else
                     {
+                        //묶음으로 풀발판 나오게 하기 => 풀생성은 GrassSpawn에서 해결
                          offsetval = GroupRandomGrassLine(i);
-                        m_LastRoadType = E_LastRoadType.Grass;
+                        m_LastRoadType = LastRoadType.Grass;
                     }
                     i += offsetval - 1;
                 }
@@ -191,7 +186,7 @@ public class MapManager : MonoBehaviour
         if(m_LastLinePos < p_posz + FrontOffsetPosZ)
         {
             int offsetval = 0;
-            if (m_LastRoadType == E_LastRoadType.Grass)
+            if (m_LastRoadType == LastRoadType.Grass)
             {
                 int randomval = Random.Range(0, 2);
                 if (randomval == 0)
@@ -203,12 +198,12 @@ public class MapManager : MonoBehaviour
                     offsetval = GroupRandomRoadLine(m_LastLinePos);
                 }
 
-                m_LastRoadType = E_LastRoadType.Road;
+                m_LastRoadType = LastRoadType.Road;
             }
             else
             {
                 offsetval = GroupRandomGrassLine(m_LastLinePos);
-                m_LastRoadType = E_LastRoadType.Grass;
+                m_LastRoadType = LastRoadType.Grass;
             }
 
             m_LastLinePos += offsetval;

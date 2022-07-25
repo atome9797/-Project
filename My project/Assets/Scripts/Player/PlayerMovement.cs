@@ -1,23 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public TMPro.TextMeshProUGUI _ui;
+    
     [SerializeField]
     protected Raft RaftObject;
     protected Transform RaftCompareObj;
 
-    public Vector3 m_RaftOffsetpos = Vector3.zero;
+    public Vector3 RaftOffsetpos = Vector3.zero;
     public MapManager MapManagerCom;
+
+    //직렬화는 외부 스크립트에서 접근하지 않고 inspector에서 접근할수 있게 함
+    [SerializeField]
+    protected DirectionType _directionType = DirectionType.Up;
+    protected int TreeLayerMask = -1;
+
+    private void Awake()
+    {
+        _ui = GetComponent<TextMeshProUGUI>();
+    }
 
     private void Start()
     {
         string[] templayer = new string[] { "Tree" };
-        m_TreeLayerMask = LayerMask.GetMask(templayer);
+        TreeLayerMask = LayerMask.GetMask(templayer);
         MapManagerCom.UpdateForwardNBackMove((int)transform.position.z);
     }
-    public enum E_DirectionType
+    public enum DirectionType
     {
         Up = 0,
         Down,
@@ -25,27 +38,23 @@ public class PlayerMovement : MonoBehaviour
         Right
     }
 
-    //직렬화는 외부 스크립트에서 접근하지 않고 inspector에서 접근할수 있게 함
-    [SerializeField]
-    protected E_DirectionType _directionType = E_DirectionType.Up;
-    protected int m_TreeLayerMask = -1;
-
-    protected bool IsCheckDirectionViewMove(E_DirectionType p_movetype)
+    protected bool IsCheckDirectionViewMove(DirectionType p_movetype)
     {
+
         Vector3 direction = Vector3.zero;
 
         switch (p_movetype)
         {
-            case E_DirectionType.Up:
+            case DirectionType.Up:
                 direction = Vector3.forward;
                 break;
-            case E_DirectionType.Down:
+            case DirectionType.Down:
                 direction = Vector3.back;
                 break;
-            case E_DirectionType.Left:
+            case DirectionType.Left:
                 direction = Vector3.left;
                 break;
-            case E_DirectionType.Right:
+            case DirectionType.Right:
                 direction = Vector3.right;
                 break;
             default:
@@ -54,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         RaycastHit hitobj;
-        if(Physics.Raycast(transform.position, direction, out hitobj, 1f, m_TreeLayerMask))
+        if(Physics.Raycast(transform.position, direction, out hitobj, 1f, TreeLayerMask))
         {
             return false;
         }
@@ -62,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
         return true;
     }
 
-    protected void SetActorMove(E_DirectionType p_movetype)
+    protected void SetActorMove(DirectionType p_movetype)
     {
         if(!IsCheckDirectionViewMove(p_movetype))
         {
@@ -73,27 +82,30 @@ public class PlayerMovement : MonoBehaviour
 
         switch (p_movetype)
         {
-            case E_DirectionType.Up:
+            case DirectionType.Up:
                 offsetpos = Vector3.forward;
                 break;
-            case E_DirectionType.Down:
+            case DirectionType.Down:
                 offsetpos = Vector3.back;
                 break;
-            case E_DirectionType.Left:
+            case DirectionType.Left:
                 offsetpos = Vector3.left;
                 break;
-            case E_DirectionType.Right:
+            case DirectionType.Right:
                 offsetpos = Vector3.right;
                 break;
             default:
                 Debug.LogErrorFormat($"SetActorMove Error : {p_movetype}");
                 break;
         }
-
+        
         transform.position += offsetpos;
-        m_RaftOffsetpos += offsetpos;
+        RaftOffsetpos += offsetpos;
 
+        GameManager.Instance.AddScore();
         MapManagerCom.UpdateForwardNBackMove((int)transform.position.z);
+
+
     }
 
 
@@ -101,19 +113,19 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            SetActorMove(E_DirectionType.Up);
+            SetActorMove(DirectionType.Up);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            SetActorMove(E_DirectionType.Down);
+            SetActorMove(DirectionType.Down);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            SetActorMove(E_DirectionType.Left);
+            SetActorMove(DirectionType.Left);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            SetActorMove(E_DirectionType.Right);
+            SetActorMove(DirectionType.Right);
         }
     }
 
@@ -123,7 +135,7 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        Vector3 actorpos = RaftObject.transform.position + m_RaftOffsetpos;
+        Vector3 actorpos = RaftObject.transform.position + RaftOffsetpos;
         transform.position = actorpos;
     }
 
@@ -142,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
             if(RaftObject != null)
             {
                 RaftCompareObj = RaftObject.transform;
-                m_RaftOffsetpos = transform.position - RaftObject.transform.position;
+                RaftOffsetpos = transform.position - RaftObject.transform.position;
             }
             return;
         }
@@ -154,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
         {
             RaftCompareObj = null;
             RaftObject = null;
-            m_RaftOffsetpos = Vector3.zero;
+            RaftOffsetpos = Vector3.zero;
         }
     }
 

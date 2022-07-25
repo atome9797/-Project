@@ -10,9 +10,23 @@ public class GrassSpawn : MonoBehaviour
 
     public int SpawnCreateRandom = 30;
 
-    void GeneratorRoundBlock()
+    void GeneratorBackBlock2()
     {
+        int randomIndex = 0;
+        GameObject tempclone = null;
+        Vector3 offsetpos = Vector3.zero;
 
+
+        for (int i = StartMinVal; i < StartMaxVal; ++i)
+        {
+            randomIndex = Random.Range(0, EnviromentObjectList.Count);
+            tempclone = Instantiate(EnviromentObjectList[randomIndex].gameObject);
+            tempclone.SetActive(true);
+            offsetpos.Set(i, 0.8f, 0f);
+
+            tempclone.transform.SetParent(transform);
+            tempclone.transform.localPosition = offsetpos;
+        }
     }
 
     void GeneratorBackBlock()
@@ -65,13 +79,13 @@ public class GrassSpawn : MonoBehaviour
 
     void GeneratorEnviroment()
     {
-        if(transform.position.z <= - 4)
+        if(transform.position.z <= -1 && transform.position.z >= -3)
         {
             GeneratorBackBlock();
         }
-        else if(transform.position.z <= 0)
+        else if(transform.position.z < -3)
         {
-            GeneratorRoundBlock();
+            GeneratorBackBlock2();
         }
         else
         {

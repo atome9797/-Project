@@ -5,7 +5,7 @@ using UnityEngine;
 public class Road : MonoBehaviour
 {
     public GameObject CloneTarget;
-    public Transform GeneratoinPos;
+    public Transform _transform;
     public int GenerationPersent = 50;
 
     public float CloneDelaySec = 1f;
@@ -33,11 +33,12 @@ public class Road : MonoBehaviour
 
     void CloneCar()
     {
-        Transform clonepos = GeneratoinPos;
+        Transform clonepos = _transform;
         Vector3 offsetpos = clonepos.position;
         offsetpos.y = 0f;
 
-        GameObject cloneobj = Instantiate(CloneTarget.gameObject, offsetpos, GeneratoinPos.rotation, transform);
+        //ClonePos 의 위치에 맞게 좌표로 생성되도록함 => 자동차 방향 정렬가능
+        GameObject cloneobj = Instantiate(CloneTarget.gameObject, offsetpos, _transform.rotation, transform);
         cloneobj.SetActive(true);
 
     }
