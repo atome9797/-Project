@@ -253,9 +253,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b9c6499525d114fa8115e3a93e6ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnGameEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnScoreChanged:
+    m_PersistentCalls:
+      m_Calls: []
   ScoreIncreaseAmount: 1
-  scoreText: {fileID: 1029355047}
-  gameOverUI: {fileID: 1689267375}
 --- !u!4 &258491697
 Transform:
   m_ObjectHideFlags: 0
@@ -385,7 +389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &573446841
 RectTransform:
   m_ObjectHideFlags: 0
@@ -896,7 +900,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1015466418}
-  - component: {fileID: 1015466424}
   - component: {fileID: 1015466417}
   - component: {fileID: 1015466422}
   - component: {fileID: 1015466421}
@@ -966,11 +969,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ui: {fileID: 1029355045}
-  _animator: {fileID: 2037137901}
+  timeBeforeNextJump: 1.2
   RaftObject: {fileID: 0}
+  _rigidbody: {fileID: 1015466421}
   RaftOffsetpos: {x: 0, y: 0, z: 0}
   MapManagerCom: {fileID: 1138053430}
   _directionType: 0
+  startPos: {x: 0, y: 0, z: 0}
+  endPos: {x: 0, y: 0, z: 0}
+  startHeightPos: {x: 0, y: 0, z: 0}
+  endHeightPos: {x: 0, y: 0, z: 0}
+  movePos: {x: 0, y: 0, z: 0}
+  StepTime: 0
 --- !u!114 &1015466423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -983,26 +993,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799a9b399f03ee94da5e36886d5d828e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1015466424
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1015466416}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: da87f0caf717cb746a640124438be23c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1029355043
 GameObject:
   m_ObjectHideFlags: 0
@@ -1546,7 +1536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1563056936
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1673,13 +1663,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1689267376}
+  - component: {fileID: 1689267377}
   m_Layer: 5
   m_Name: GameOverUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1689267376
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1702,6 +1693,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1689267377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689267375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92b81b748d121e841a5484ebd997633a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2037137899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1784,3 +1787,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2037137902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248831206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04fa3e6f86d89d541ac4990132318a2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 2037137901}

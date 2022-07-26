@@ -6,13 +6,14 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI _ui;
-    public Animator _animator; // 플레이어 캐릭터의 애니메이터
-    public float timeBeforeNextJump = 1.2f;
+    public float timeBeforeNextJump = 1f;
     private float canJump = 0f;
+    float jumpTime = 0f;
 
     [SerializeField]
     protected Raft RaftObject;
     protected Transform RaftCompareObj;
+    public Rigidbody _rigidbody;
 
     public Vector3 RaftOffsetpos = Vector3.zero;
     public MapManager MapManagerCom;
@@ -22,10 +23,32 @@ public class PlayerMovement : MonoBehaviour
     protected DirectionType _directionType = DirectionType.Up;
     protected int TreeLayerMask = -1;
 
+    
+    public Vector3 startPos;//이동전 위치
+    public Vector3 endPos; //이동할 위치
+
+    public Vector3 startHeightPos;  //이동전 위치 높이
+    public Vector3 endHeightPos;  //이동후 위치 높이
+    public Vector3 movePos;
+
+    public float StepTime = 0f; //베지어곡선에 사용할 시간t
+
+    bool isTimeTrigger = false;
+
+    void setPosition(Vector3 movePos)
+    {
+        startPos = transform.position;
+        endPos = transform.position + movePos;
+
+        startHeightPos = startPos + Vector3.up;
+        endHeightPos = endPos + Vector3.up;
+
+    }
+
+
     private void Awake()
     {
         _ui = GetComponent<TextMeshProUGUI>();
-        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -87,39 +110,61 @@ public class PlayerMovement : MonoBehaviour
         switch (p_movetype)
         {
             case DirectionType.Up:
+                transform.rotation = Quaternion.Euler(0, 0, 0);
                 offsetpos = Vector3.forward;
+                setPosition(offsetpos);
+                isTimeTrigger = true;
                 break;
             case DirectionType.Down:
+                transform.rotation = Quaternion.Euler(0, -180, 0);
                 offsetpos = Vector3.back;
+                setPosition(offsetpos);
+                isTimeTrigger = true;
                 break;
             case DirectionType.Left:
+                transform.rotation = Quaternion.Euler(0, -90, 0);
                 offsetpos = Vector3.left;
+                setPosition(offsetpos);
+                isTimeTrigger = true;
                 break;
             case DirectionType.Right:
+                transform.rotation = Quaternion.Euler(0, 90, 0);
                 offsetpos = Vector3.right;
+                setPosition(offsetpos);
+                isTimeTrigger = true;
                 break;
             default:
                 Debug.LogErrorFormat($"SetActorMove Error : {p_movetype}");
                 break;
         }
-        
-        transform.position += offsetpos;
+
+        //transform.position += offsetpos;
         RaftOffsetpos += offsetpos;
 
         GameManager.Instance.AddScore();
         MapManagerCom.UpdateForwardNBackMove((int)transform.position.z);
 
-        if ( Time.time > canJump)
-        {
-            canJump = Time.time + timeBeforeNextJump;
-            _animator.SetTrigger("jump");
-        }
 
     }
 
+    void BezierCurve()
+    {
+        Vector3 a = Vector3.Lerp(startPos, startHeightPos, StepTime);
+        Vector3 b = Vector3.Lerp(startHeightPos, endHeightPos, StepTime);
+        Vector3 c = Vector3.Lerp(endHeightPos, endPos, StepTime);
+
+        Vector3 d = Vector3.Lerp(a, b, StepTime);
+        Vector3 e = Vector3.Lerp(b, c, StepTime);
+
+        Vector3 f = Vector3.Lerp(d, e, StepTime);
+
+        transform.position = f;
+    }
 
     protected void InputUpdate()
     {
+        Vector3 movePos = Vector3.zero;
+
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             SetActorMove(DirectionType.Up);
@@ -136,6 +181,26 @@ public class PlayerMovement : MonoBehaviour
         {
             SetActorMove(DirectionType.Right);
         }
+
+
+        //화살표 키눌렀을때 실행
+        if (isTimeTrigger)
+        {
+            StepTime += Time.deltaTime * 10;
+            //1초 동안 베지에 곡선으로 그려지게 설정하기
+            if (StepTime <= 1f)
+            {
+                BezierCurve();
+            }
+            else
+            {
+                StepTime = 1f;
+                BezierCurve();
+                StepTime = 0f;
+                isTimeTrigger = false;
+            }
+        }
+
     }
 
     protected void UpdateRaft()
@@ -150,6 +215,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        
+
         UpdateRaft();
         InputUpdate();
     }

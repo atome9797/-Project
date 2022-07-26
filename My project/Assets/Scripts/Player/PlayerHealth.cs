@@ -16,6 +16,7 @@ public class PlayerHealth : MonoBehaviour
         isDead = true;
         gameObject.SetActive(false);  //컴포넌트 메세지 전송안됨
         GameManager.Instance.End();
+
     }
     
     private void OnTriggerEnter(Collider other)
