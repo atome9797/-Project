@@ -114,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
                 offsetpos = Vector3.forward;
                 setPosition(offsetpos);
                 isTimeTrigger = true;
+                GameManager.Instance.AddScore();
                 break;
             case DirectionType.Down:
                 transform.rotation = Quaternion.Euler(0, -180, 0);
@@ -141,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
         //transform.position += offsetpos;
         RaftOffsetpos += offsetpos;
 
-        GameManager.Instance.AddScore();
+        //GameManager.Instance.AddScore();
         MapManagerCom.UpdateForwardNBackMove((int)transform.position.z);
 
 
@@ -215,20 +216,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        
-
         UpdateRaft();
         InputUpdate();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if(other.tag == "Raft")
+        if (collision.collider.tag == "Raft")
         {
-            RaftObject = other.transform.parent.GetComponent<Raft>();
+            RaftObject = collision.transform.parent.GetComponent<Raft>();
 
-            if(RaftObject != null)
+            if (RaftObject != null)
             {
+
                 RaftCompareObj = RaftObject.transform;
                 RaftOffsetpos = transform.position - RaftObject.transform.position;
             }
@@ -236,9 +236,25 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionStay(Collision collision)
     {
-        if(other.tag == "Raft" && RaftCompareObj == other.transform.parent)
+        if (collision.collider.tag == "Raft")
+        {
+            RaftObject = collision.transform.parent.GetComponent<Raft>();
+
+            if (RaftObject != null)
+            {
+
+                RaftCompareObj = RaftObject.transform;
+                RaftOffsetpos = transform.position - RaftObject.transform.position;
+            }
+            return;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.tag == "Raft" && RaftCompareObj == collision.transform.parent)
         {
             RaftCompareObj = null;
             RaftObject = null;

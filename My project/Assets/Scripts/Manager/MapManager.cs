@@ -15,7 +15,9 @@ public class MapManager : MonoBehaviour
 
     //public GameObject[] mapObjectArray;
 
-    public Road DefaultRoad = null;
+    public GameObject[] RoadArray = new GameObject[4];
+
+    public Road TrainRoad = null;
     public Road WaterRoad = null;
     public GrassSpawn GrassRoad = null;
 
@@ -45,6 +47,18 @@ public class MapManager : MonoBehaviour
         return randomCount;
     }
 
+    public int GroupRandomTrainRoadLine(int p_posz)
+    {
+        int randomCount = Random.Range(1, 4);
+
+        for (int i = 0; i < randomCount; i++)
+        {
+            GeneratorTrainRoadLine(p_posz + i);
+        }
+
+        return randomCount;
+    }
+
     public int GroupRandomWaterLine(int p_posz)
     {
         int randomCount = Random.Range(1, 4);
@@ -69,9 +83,12 @@ public class MapManager : MonoBehaviour
         return randomCount;
     }
 
+
     public void GeneratorRoadLine(int p_posz)
     {
-        GameObject cloneobj = Instantiate(DefaultRoad.gameObject);
+        int randomRoad = Random.Range(0, 3);
+
+        GameObject cloneobj = Instantiate(RoadArray[randomRoad].gameObject);
         cloneobj.SetActive(true);
         Vector3 offsetpos = Vector3.zero;
         offsetpos.z = p_posz;
@@ -89,6 +106,30 @@ public class MapManager : MonoBehaviour
         mapList.Add(cloneobj.transform);
         mapListDic.Add(p_posz, cloneobj.transform);
     }
+
+    public void GeneratorTrainRoadLine(int p_posz)
+    {
+        int randomRoad = Random.Range(0, 3);
+
+        GameObject cloneobj = Instantiate(TrainRoad.gameObject);
+        cloneobj.SetActive(true);
+        Vector3 offsetpos = Vector3.zero;
+        offsetpos.z = p_posz;
+        cloneobj.transform.SetParent(ParentTransform);
+        cloneobj.transform.position = offsetpos;
+
+        int randomrot = Random.Range(0, 2);
+        if (randomrot == 1)
+        {
+            cloneobj.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+
+        cloneobj.name = "TrainRoadLine_" + p_posz.ToString();
+
+        mapList.Add(cloneobj.transform);
+        mapListDic.Add(p_posz, cloneobj.transform);
+    }
+
 
     public void GeneratorWaterLine(int p_posz)
     {
@@ -156,16 +197,21 @@ public class MapManager : MonoBehaviour
                 {
                     if(m_LastRoadType == LastRoadType.Grass)
                     {
-                        int randomval = Random.Range(0, 2);
+                        int randomval = Random.Range(0, 3);
                         if(randomval == 0)
                         {
                             //묶음으로 발판 나오게 하기
                             offsetval = GroupRandomWaterLine(i);
                         }
-                        else
+                        else if(randomval == 1)
                         {
                             //묶음으로 발판 나오게 하기
                             offsetval = GroupRandomRoadLine(i);
+                        }
+                        else if(randomval == 2)
+                        {
+                            //묶음으로 발판 나오게 하기
+                            offsetval = GroupRandomTrainRoadLine(i);
                         }
 
                         m_LastRoadType = LastRoadType.Road;
@@ -188,14 +234,18 @@ public class MapManager : MonoBehaviour
             int offsetval = 0;
             if (m_LastRoadType == LastRoadType.Grass)
             {
-                int randomval = Random.Range(0, 2);
+                int randomval = Random.Range(0, 3);
                 if (randomval == 0)
                 {
                     offsetval = GroupRandomWaterLine(m_LastLinePos);
                 }
-                else
+                else if (randomval == 1)
                 {
                     offsetval = GroupRandomRoadLine(m_LastLinePos);
+                }
+                else if (randomval == 2)
+                {
+                    offsetval = GroupRandomTrainRoadLine(m_LastLinePos);
                 }
 
                 m_LastRoadType = LastRoadType.Road;

@@ -356,6 +356,7 @@
 "Assets/Scripts/Component/GrassSpawn.cs"
 "Assets/Scripts/Component/Raft.cs"
 "Assets/Scripts/Component/Road.cs"
+"Assets/Scripts/Component/Train.cs"
 "Assets/Scripts/Manager/GameManager.cs"
 "Assets/Scripts/Manager/MapManager.cs"
 "Assets/Scripts/Player/AnimatorController.cs"
