@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerHealth : MonoBehaviour
 {
     private bool isDead = false; // »ç¸Á »óÅÂ
+    public Camera Camera;
+    public GameObject _target;
 
     private void die()
     {
@@ -18,17 +21,35 @@ public class PlayerHealth : MonoBehaviour
         GameManager.Instance.End();
 
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("OnTriggerEnter : " + other.tag);
-        if(other.tag == "Car" || other.tag == "Water")
+        Debug.Log("OnTriggerEnter : " + collision.collider.tag);
+        if (collision.collider.tag == "Car" || collision.collider.tag == "Water")
         {
-            if(isDead == false)
+            if (isDead == false)
             {
                 die();
             }
         }
+    }
+
+    private void Update()
+    {
+        
+        if (CheckObjectIsInCamera() == false)
+        {
+            die();
+        }
+    }
+
+
+    public bool CheckObjectIsInCamera()
+    {
+        Vector3 screenPoint = Camera.WorldToViewportPoint(_target.transform.position);
+        bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+
+        return onScreen;
     }
 
 

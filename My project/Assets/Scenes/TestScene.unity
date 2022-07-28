@@ -5894,6 +5894,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799a9b399f03ee94da5e36886d5d828e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Camera: {fileID: 1503712252}
+  _target: {fileID: 1015466416}
 --- !u!1 &1029355043
 GameObject:
   m_ObjectHideFlags: 0
@@ -8973,6 +8975,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 1015466418}
   Smoothing: 5
+  moveTime: 1
 --- !u!1 &1509253000
 GameObject:
   m_ObjectHideFlags: 0
