@@ -65,7 +65,7 @@ public class MapManager : MonoBehaviour
 
         for (int i = 0; i < randomCount; i++)
         {
-            GeneratorWaterLine(p_posz + i);
+            GroupRandomWaterLine(p_posz + i);
         }
 
         return randomCount;

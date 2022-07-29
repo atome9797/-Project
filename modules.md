@@ -1,1 +1,84 @@
 
+- Camera 
+    - CameraFollow
+        - Start() : 카메라 위치 초기화 , 타겟의 위치로 지정
+        - Update() :  시간의 흐름에 따라 , 카메라 위치 위로 이동
+
+- Component
+    - Car
+        - Start() : 12초뒤 자동차 파괴
+        - Update() : 자동차 위치 시간의 흐름에 따라 변경
+    - GrassSpawn 
+        - GeneratorBackBlock2() :  오브젝트 풀링으로 식물 랜덤으로 생성해주기 좌표가 -3 미만이면 생성
+        - GeneratorBackBlock() : 오브젝트 풀링으로 식물 랜덤으로 생성해주기 좌표가 0 에서 -3 이면 좌우 5 이상 -5 이하의 생성
+        - GeneratorTree() : 오브젝트 풀링으로 식물 랜덤으로 생성해주기 좌표가 0 초과 이면 랜덤으로 식물 생성해주기
+        - GeneratorEnviroment() :  생성주기 지정
+        - Start() : GeneratorEnviroment() 받음
+        
+    - Raft
+        - Start() : 뗏목 30초후 삭제
+        - Update() : 뗏목 이동시키기
+    - Road
+        - Update() : 자동차 랜덤으로 생성되게 하기 
+            - CloneCar() : 랜덤으로 자동차 생성     
+    - Train
+        - Start() : 4초후 기차 삭제하기
+        - Update() :  기차 이동시키기
+
+- Manager
+    - GameManager : SingletonBehaviour<GameManager>
+        - Update() : 게임오버 상태에서 게임을 재시작 할수 있게 처리 
+        - AddScore() : 옵저버 패턴 이용해서 ui 스코어 증가 시키기
+        - End() : 옵저버 패턴 이용해서 ui 게임 종료 실행시키기 
+        - reset() : 스코어 밑 게임오버 초기화 시키기
+    - MapManger
+        - UpdateForwardNBackMove() : 움직일때마다 발판 생성
+            - GroupRandomRoadLine() : 
+                - GeneratorRoadLine() : 
+            - GroupRandomTrainRoadLine() :
+                - GeneratorTrainRoadLine() :
+            - GroupRandomWaterLine() :
+                - GroupRandomWaterLine() :
+            - GroupRandomGrassLine() :
+                - GeneratorGrassLine () : 
+            - RemoveLine() : 
+
+- Player
+    - AnimatorController
+        - Start() : 애니메이터 연결
+        - Update() : 이동할때마다 애니메이션 실행
+    - PlayerHealth 
+        - die() :
+        - OnCollisionEnter() :
+        - Update() : 
+        - CheckObjectIsInCamera() :
+    - PlayerMovement
+        - setPosition() :
+        - Awake() :
+        - Start() :
+        - IsCheckDirectionViewMove() :
+        - SetActorMove() :
+        - BezierCurve() :
+        - InputUpdate() :
+        - UpdateRaft() :
+        - Update() : 
+        - OnCollisionEnter() :
+        - OnCollisionStay() :
+        - OnCollisionExit() : 
+- UI
+    - GameOverUI
+        - Awake() :
+        - Activate() : 
+        - OnEnable() : 
+        - OnDisable() : 
+    - ScoreText
+        - Awake() :
+        - OnEnable() :
+        - OnDisable() :
+        - UpdateText() : 
+
+- Util
+    - SingletonBehavior
+        - Awake() : 
+
+
