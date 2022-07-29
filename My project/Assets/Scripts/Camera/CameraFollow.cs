@@ -6,7 +6,7 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform Target;
     public float Smoothing = 5f;
-    public float moveTime = 0.5f;
+    public float moveTime = 0.3f;
 
     Vector3 OffsetVal;
 
@@ -35,7 +35,7 @@ public class CameraFollow : MonoBehaviour
            moveTime += Time.deltaTime;
 
 
-           Vector3 targetcamerapos = OffsetVal + new Vector3(0f,0f, moveTime);
+           Vector3 targetcamerapos = OffsetVal + Vector3.back + new Vector3(0f,0f, moveTime);
 
            transform.position = Vector3.Lerp(transform.position, targetcamerapos, Smoothing * Time.deltaTime);
 
